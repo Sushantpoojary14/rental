@@ -94,3 +94,5 @@ frontend/
 ``` 
 # rental
 # rental
+
+DB_USERNAME=root DB_PASSWORD=password DB_NAME=database_name DB_HOST=127.0.0.1 npx sequelize-cli db:migrate

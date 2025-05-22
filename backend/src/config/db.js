@@ -1,25 +1,23 @@
-var mysql = require("mysql2");
+const { Sequelize } = require('sequelize');
 
-
-module.exports = connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+const sequelize = new Sequelize({
   database: process.env.DB_DATABASE,
-  port: process.env.DB_PORT,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: 3306, 
+  dialect: 'mysql',
+
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.log("Error connecting to the database", err);
-  } else {
-    console.log("Connected to the database");
+// Test the connection
+async function connectToDatabase() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connected to the database');
+  } catch (err) {
+    console.error('Error connecting to the database:', err);
   }
-});
+}
 
-// connection.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
-//   if (error) throw error;
-//   console.log("The solution is: ", results[0].solution);
-// });
-
-connection.end();
+connectToDatabase()
