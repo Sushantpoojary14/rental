@@ -1,10 +1,4 @@
-# Full Stack Project
-
-This project consists of a React frontend and Node.js backend.
-
 ## Running with Docker
-
-The easiest way to run the project is using Docker Compose:
 
 ```bash
 # Build and start all services
@@ -18,10 +12,9 @@ docker-compose down
 ```
 
 The services will be available at:
+
 - Frontend: http://localhost:5173
 - Backend: http://localhost:5000
-
-
 
 ## Manual Setup
 
@@ -30,69 +23,70 @@ The services will be available at:
 The backend is a Node.js Express server.
 
 #### Setup
+
 1. Navigate to the backend directory:
+
    ```bash
    cd backend
    ```
+
 2. Install dependencies:
+
    ```bash
    npm install
    ```
+
 3. Start the development server:
+
    ```bash
    npm run dev
    ```
+
    The server will run on http://localhost:5000
+
+
+#### Migration Commands
+
+# Create the database
+
+```bash
+npm run create
+   ```
+
+# Run all migrations
+
+```bash
+npm run migrate
+   ```
+
+# Run all seeders
+
+```bash
+npm run seed
+   ````
 
 ### Frontend
 
 The frontend is a React application built with Vite.
 
 #### Setup
+
 1. Navigate to the frontend directory:
+
    ```bash
    cd frontend
    ```
+
 2. Install dependencies:
+
    ```bash
    npm install
    ```
+
 3. Start the development server:
+
    ```bash
    npm run dev
    ```
+
    The application will run on http://localhost:5173
-
-## Project Structure
-
-### Backend
-```
-backend/
-├── src/
-│   ├── controllers/    # Route controllers
-│   ├── models/        # Data models
-│   ├── routes/        # API routes
-│   ├── middleware/    # Custom middleware
-│   ├── config/        # Configuration files
-│   └── index.js       # Entry point
-├── .env              # Environment variables
-├── Dockerfile        # Docker configuration
-└── package.json
-```
-
-### Frontend
-```
-frontend/
-├── src/
-│   ├── components/    # React components
-│   ├── assets/        # Static assets
-│   ├── App.jsx       # Main App component
-│   └── main.jsx      # Entry point
-├── Dockerfile        # Docker configuration
-├── vite.config.js    # Vite configuration
-└── package.json
-``` 
-# rental
-# rental
-
-DB_USERNAME=root DB_PASSWORD=password DB_NAME=database_name DB_HOST=127.0.0.1 npx sequelize-cli db:migrate

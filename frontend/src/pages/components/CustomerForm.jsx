@@ -78,12 +78,15 @@ const CustomerForm = ({
       <Stack spacing={3}>
         {steps === 0 && (
           <>
-            <Typography variant="h6"  mb={2}>Enter Your Details</Typography>
+            <Typography variant="h6" mb={2}>
+              Enter Your Details
+            </Typography>
             <TextField
               fullWidth
               label="First Name"
               placeholder="Enter First Name"
               error={errors?.firstName}
+              helperText={errors?.firstName && "First name is required"}
               {...register("firstName", { required: true, maxLength: 150 })}
             />
             <TextField
@@ -99,37 +102,43 @@ const CustomerForm = ({
 
         {steps === 1 && (
           <FormControl component="fieldset" error={errors?.vehicleType}>
-            <Typography variant="h6" mb={2}>Vehicle Type</Typography>
+            <Typography variant="h6" mb={2}>
+              Vehicle Type
+            </Typography>
             {data?.vehicleTypes?.length < 1 ? (
-              <Typography variant="p" align="center"  mt={10}>Currently UnAvailable</Typography>
-            ) : (<Controller
-              name="vehicleType"
-              control={control}
-              rules={{ required: "Please select one" }}
-              render={({ field }) => (
-                <Box
-                  sx={{
-                    maxHeight: 200,
-                    overflowY: "auto",
-                    border: "1px solid gray",
+              <Typography variant="p" align="center" mt={10}>
+                Currently UnAvailable
+              </Typography>
+            ) : (
+              <Controller
+                name="vehicleType"
+                control={control}
+                rules={{ required: "Please select one" }}
+                render={({ field }) => (
+                  <Box
+                    sx={{
+                      maxHeight: 200,
+                      overflowY: "auto",
+                      border: "1px solid gray",
 
-                    borderRadius: 1,
-                    p: 1,
-                  }}
-                >
-                  <RadioGroup {...field} row={false}>
-                    {data?.vehicleTypes?.map(({ id, name }) => (
-                      <FormControlLabel
-                        key={name}
-                        value={id}
-                        control={<Radio />}
-                        label={name}
-                      />
-                    ))}
-                  </RadioGroup>
-                </Box>
-              )}
-            />)}
+                      borderRadius: 1,
+                      p: 1,
+                    }}
+                  >
+                    <RadioGroup {...field} row={false}>
+                      {data?.vehicleTypes?.map(({ id, name }) => (
+                        <FormControlLabel
+                          key={name}
+                          value={id}
+                          control={<Radio />}
+                          label={name}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </Box>
+                )}
+              />
+            )}
             {errors?.vehicleType && (
               <Typography variant="caption" color="error">
                 Vehicle Type is required
@@ -140,37 +149,43 @@ const CustomerForm = ({
 
         {steps === 2 && (
           <FormControl component="fieldset" error={errors?.categoryType}>
-            <Typography variant="h6"  mb={2}>Category</Typography>
+            <Typography variant="h6" mb={2}>
+              Category
+            </Typography>
             {data?.vehicleCategories?.length < 1 ? (
-              <Typography variant="p" align="center"  mt={10}>Currently UnAvailable</Typography>
-            ) : (<Controller
-              name="categoryType"
-              control={control}
-              rules={{ required: "Please select one" }}
-              render={({ field }) => (
-                <Box
-                  sx={{
-                    maxHeight: 200,
-                    overflowY: "auto",
-                    border: "1px solid gray",
+              <Typography variant="p" align="center" mt={10}>
+                Currently UnAvailable
+              </Typography>
+            ) : (
+              <Controller
+                name="categoryType"
+                control={control}
+                rules={{ required: "Please select one" }}
+                render={({ field }) => (
+                  <Box
+                    sx={{
+                      maxHeight: 200,
+                      overflowY: "auto",
+                      border: "1px solid gray",
 
-                    borderRadius: 1,
-                    p: 1,
-                  }}
-                >
-                  <RadioGroup {...field}>
-                    {data?.vehicleCategories?.map(({ id, name }) => (
-                      <FormControlLabel
-                        key={name}
-                        value={id}
-                        control={<Radio />}
-                        label={name}
-                      />
-                    ))}
-                  </RadioGroup>
-                </Box>
-              )}
-            />)}
+                      borderRadius: 1,
+                      p: 1,
+                    }}
+                  >
+                    <RadioGroup {...field}>
+                      {data?.vehicleCategories?.map(({ id, name }) => (
+                        <FormControlLabel
+                          key={name}
+                          value={id}
+                          control={<Radio />}
+                          label={name}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </Box>
+                )}
+              />
+            )}
             {errors?.categoryType && (
               <Typography variant="caption" color="error">
                 category is required
@@ -181,9 +196,13 @@ const CustomerForm = ({
 
         {steps === 3 && (
           <FormControl component="fieldset" error={errors?.vehicles}>
-            <Typography variant="h6"  mb={2}>Vehicle Model</Typography>
+            <Typography variant="h6" mb={2}>
+              Vehicle Model
+            </Typography>
             {data?.vehicles?.length < 1 ? (
-              <Typography variant="p" align="center" mt={10}>No Vehicle Model Available</Typography>
+              <Typography variant="p" align="center" mt={10}>
+                No Vehicle Model Available
+              </Typography>
             ) : (
               <Controller
                 name="vehicles"
@@ -224,7 +243,9 @@ const CustomerForm = ({
 
         {steps === 4 && (
           <FormControl error={errors?.book_date}>
-            <Typography variant="h6"  mb={2}>Please Select Date</Typography>
+            <Typography variant="h6" mb={2}>
+              Please Select Date
+            </Typography>
             <TextField
               fullWidth
               type="date"
@@ -234,6 +255,11 @@ const CustomerForm = ({
             {errors?.book_date && (
               <Typography variant="caption" color="error">
                 Date cannot be less than today date
+              </Typography>
+            )}
+            {errors?.book && (
+              <Typography variant="caption" color="error">
+                {errors.book}
               </Typography>
             )}
           </FormControl>

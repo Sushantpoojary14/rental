@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  Snackbar,
   Step,
   StepLabel,
   Stepper,
@@ -39,7 +40,7 @@ const Index = () => {
     if (activeStep === 0) {
       if (!values.firstName?.trim()) {
         setErrors({ firstName: true });
-        return;
+   
       }
       if (!values.lastName?.trim()) {
         setErrors({ lastName: true });
@@ -141,17 +142,20 @@ const Index = () => {
         flexDirection: "column",
       }}
     >
-      {errors?.book ? (
-        <Alert variant="filled" severity="error">
-          {errors.book}
-        </Alert>
-      ) : null}
-
-      {success ? (
-        <Alert variant="filled" severity="success">
+      <Snackbar
+        open={!!success}
+        autoHideDuration={6000}
+        onClose={() => setSuccess(null)}
+      >
+        <Alert
+          onClose={() => setSuccess(null)}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
           {success}
         </Alert>
-      ) : null}
+      </Snackbar>
       <Box sx={{ flexGrow: 1 }}>
         <CustomerForm
           register={register}

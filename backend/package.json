@@ -5,8 +5,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "migrate":"env-cmd npx sequelize-cli db:migrate",
-    "seed":"env-cmd npx sequelize-cli db:seed:all"
+    "migrate": "env-cmd npx sequelize-cli db:migrate",
+    "seed": "env-cmd npx sequelize-cli db:seed:all",
+    "create":"npx sequelize-cli db:create"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
+    "@types/dotenv": "^6.1.1",
     "nodemon": "^3.1.10",
     "sequelize-cli": "^6.6.3"
   }
