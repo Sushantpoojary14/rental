@@ -1,38 +1,61 @@
-const { DataTypes, Sequelize } = require("sequelize");
-const sequelize = require("../config/db");
 
-const vehicles = sequelize.define("vehicles", {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+const { DataTypes } = require("sequelize");
 
-  vehicleCategoriesID: {
-    type: Sequelize.INTEGER,
-    references: "vehicleCategories",
-    referencesKey: "id",
-    allowNull: false,
-  },
-  model: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  color: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  brand: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-});
+module.exports = (sequelize, DataTypes) => {
+  const Vehicle = sequelize.define(
+    "Vehicle",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      vehicle_category_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      model: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      color: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      brand: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+    },
+    {
+      tableName: "vehicles",
+    }
+  );
 
-module.exports = vehicles;
+  Vehicle.associate = (models) => {
+    Vehicle.belongsTo(models.VehicleCategory, {
+      foreignKey: "vehicle_category_id",
+      as: "category",
+    });
+    Vehicle.hasMany(models.Customer, {
+      foreignKey: "vehicle_id",
+      as: "customers",
+    });
+  };
+
+  return Vehicle;
+};

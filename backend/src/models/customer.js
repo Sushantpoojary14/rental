@@ -1,33 +1,53 @@
-const { DataTypes, Sequelize } = require("sequelize");
-const sequelize = require("../config/db");
 
-const customers = sequelize.define("customers", {
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  vehiclesID: {
-    type: Sequelize.INTEGER,
-    references: "vehicles",
-    referencesKey: "id",
-    allowNull: false,
-  },
-  bookDate: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-});
+const { DataTypes } = require("sequelize");
 
-module.exports = customers;
+module.exports = (sequelize, DataTypes) => {
+  const Customer = sequelize.define(
+    "Customer",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      last_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      vehicle_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      book_date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+    },
+    {
+      tableName: "customers",
+    }
+  );
+
+  Customer.associate = (models) => {
+    Customer.belongsTo(models.Vehicle, {
+      foreignKey: "vehicle_id",
+      as: "vehicle",
+    });
+  };
+
+  return Customer;
+};

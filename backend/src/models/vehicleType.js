@@ -1,32 +1,45 @@
+
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
 
 module.exports = (sequelize, DataTypes) => {
-  const vehicleType = sequelize.define("vehicleType", {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+  const VehicleType = sequelize.define(
+    "VehicleType",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      wheels: {
+        type: DataTypes.TINYINT,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    wheels: {
-      type: DataTypes.TINYINT,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-  });
+    {
+      tableName: "vehicle_types",
+    }
+  );
 
-  vehicleType.associate = (models) => {
-    vehicleType.hasMany(models.Vehicle, {
-      foreignKey: "vehicleType",
-      as: "vehicleCategories",
+  VehicleType.associate = (models) => {
+    VehicleType.hasMany(models.VehicleCategory, {
+      foreignKey: "vehicle_type_id",
+      as: "categories",
     });
   };
 
-  return vehicleType;
+  return VehicleType;
 };

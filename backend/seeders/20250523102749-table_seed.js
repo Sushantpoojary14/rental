@@ -1,72 +1,60 @@
-"use strict";
+
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert("vehicleType", [
+  async up(queryInterface, Sequelize) {
+    await queryInterface.bulkInsert("vehicle_types", [
+      {
+        name: "Car",
+        wheels: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Bike",
+        wheels: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+   
+    ]);
+
+    await queryInterface.bulkInsert("vehicle_categories", [
       {
         name: "Hatchback",
-        wheels: 4,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      { name: "SUV", wheels: 4, createdAt: new Date(), updatedAt: new Date() },
-      {
-        name: "Sedan",
-        wheels: 4,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "Cruiser",
-        wheels: 2,
+        vehicle_type_id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         name: "Sports",
-        wheels: 2,
+        vehicle_type_id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Sedan",
+        vehicle_type_id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Cruiser",
+        vehicle_type_id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "Suv",
+        vehicle_type_id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ]);
 
-    await queryInterface.bulkInsert("vehicleCategories", [
-      {
-        name: "Compact Cars",
-        vehicleTypeID: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "Luxury SUVs",
-        vehicleTypeID: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "Family Sedans",
-        vehicleTypeID: 3,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "Touring Bikes",
-        vehicleTypeID: 4,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "Racing Bikes",
-        vehicleTypeID: 5,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
-
-    await queryInterface.bulkInsert("Vehicles", [
+    await queryInterface.bulkInsert("vehicles", [
       {
         name: "Swift",
-        vehicleCategoriesID: 1,
+        vehicle_category_id: 1,
         model: "2023",
         color: "Red",
         brand: "Maruti",
@@ -75,7 +63,7 @@ module.exports = {
       },
       {
         name: "Fortuner",
-        vehicleCategoriesID: 2,
+        vehicle_category_id: 1,
         model: "2022",
         color: "Black",
         brand: "Toyota",
@@ -84,7 +72,7 @@ module.exports = {
       },
       {
         name: "Civic",
-        vehicleCategoriesID: 3,
+        vehicle_category_id: 1,
         model: "2021",
         color: "Blue",
         brand: "Honda",
@@ -93,7 +81,7 @@ module.exports = {
       },
       {
         name: "Royal Enfield",
-        vehicleCategoriesID: 4,
+        vehicle_category_id: 2,
         model: "2020",
         color: "Green",
         brand: "RE",
@@ -102,7 +90,7 @@ module.exports = {
       },
       {
         name: "Kawasaki Ninja",
-        vehicleCategoriesID: 5,
+        vehicle_category_id: 2,
         model: "2021",
         color: "Black",
         brand: "Kawasaki",
@@ -113,28 +101,20 @@ module.exports = {
 
     await queryInterface.bulkInsert("customers", [
       {
-        firstName: "John",
-        lastName: "Doe",
-        vehiclesID: 1,
-        bookDate: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        firstName: "Jane",
-        lastName: "Smith",
-        vehiclesID: 2,
-        bookDate: new Date(),
+        first_name: "John",
+        last_name: "Doe",
+        vehicle_id: 1,
+        book_date: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ]);
   },
 
-  down: async (queryInterface, Sequelize) => {
+  async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("customers", null, {});
-    await queryInterface.bulkDelete("Vehicles", null, {});
-    await queryInterface.bulkDelete("vehicleCategories", null, {});
-    await queryInterface.bulkDelete("vehicleType", null, {});
+    await queryInterface.bulkDelete("vehicles", null, {});
+    await queryInterface.bulkDelete("vehicle_categories", null, {});
+    await queryInterface.bulkDelete("vehicle_types", null, {});
   },
 };
