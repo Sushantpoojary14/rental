@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -13,11 +14,15 @@ import {
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import CustomerForm from "./components/CustomerForm";
-const fields = ["vehicleType", "categoryType", "vehicles", "book_date"];
+import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 const Index = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [errors, setErrors] = React.useState(null);
-  const { handleSubmit, watch, register, control } = useForm({
+  const [success, setSuccess] = React.useState(null);
+  const [Loading, setLoading] = React.useState(false);
+
+  const { handleSubmit, watch, register, control, reset } = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -79,7 +84,48 @@ const Index = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async () => {
+    const { firstName, lastName, vehicles, book_date } = watch();
+    setErrors(null);
+
+    if (!book_date || new Date(book_date) <= new Date()) {
+      setErrors({ book_date: true });
+      return;
+    }
+
+    if (firstName && lastName && vehicles && book_date) {
+      const body = {
+        first_name: firstName,
+        last_name: lastName,
+        vehicle_id: vehicles,
+        book_date: book_date,
+      };
+      console.log(body);
+      setLoading(true);
+      try {
+        const res = await axios.post(`${apiUrl}/vehicleBooking`, body);
+        if (res.status === 200) {
+          setSuccess("Successfully Booked Vehicle");
+          reset({
+            firstName: "",
+            lastName: "",
+            vehicleType: "",
+            categoryType: "",
+            vehicles: "",
+            book_date: "",
+          });
+          setActiveStep(0);
+        }
+      } catch (error) {
+        console.error(error);
+        setErrors({ book: error.response.data.message ?? "Already Booked" });
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setErrors({ book: "Missing Fields" });
+    }
+  };
 
   return (
     <Card
@@ -95,12 +141,25 @@ const Index = () => {
         flexDirection: "column",
       }}
     >
+      {errors?.book ? (
+        <Alert variant="filled" severity="error">
+          {errors.book}
+        </Alert>
+      ) : null}
+
+      {success ? (
+        <Alert variant="filled" severity="success">
+          {success}
+        </Alert>
+      ) : null}
       <Box sx={{ flexGrow: 1 }}>
         <CustomerForm
           register={register}
           steps={activeStep}
           control={control}
           errors={errors}
+          setLoading={setLoading}
+          watch={watch}
         />
 
         <Box
@@ -124,7 +183,7 @@ const Index = () => {
                 variant="contained"
                 disabled={activeStep !== 4}
                 type="submit"
-                onClick={handleSubmit(onSubmit)}
+                onClick={onSubmit}
               >
                 Submit
               </Button>
@@ -133,6 +192,7 @@ const Index = () => {
                 variant="contained"
                 onClick={handleNext}
                 disabled={activeStep === 4}
+                loading={Loading}
               >
                 Next
               </Button>
